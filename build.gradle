@@ -1,4 +1,8 @@
 task helloworld << {
   println 'Hello world.'
+
+  (1..10).each {
+    new File("${it}.txt") << it
+  }
 }
 
