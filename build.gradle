@@ -1,1 +1,29 @@
 apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {  
+    testCompile 'junit:junit:3.+'
+}
+
+jar {
+
+  from {
+    configurations.runtime.collect {
+	it.isDirectory() ? it : zipTree(it)
+    }
+  }
+
+  manifast {
+    attributes 'Main-Class' : 'com.example.Main'
+  }
+
+  exclude('META-INF/*.txt')
+}
+
+task run(type: JavaExec) {
+    main = 'com.example.Main'
+    classpath = configurations.compile + sourceSets.main.output
+}
